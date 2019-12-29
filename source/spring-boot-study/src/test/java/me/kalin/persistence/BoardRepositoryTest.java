@@ -6,6 +6,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.stream.IntStream;
@@ -100,4 +104,25 @@ public class BoardRepositoryTest {
 		});
 	}
 
+	@Test
+	public void pageableTest() {
+		Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "bno");
+		boardRepository.findByBnoGreaterThanOrderByBno(0L, pageable).forEach(board -> {
+			log.info(board.toString());
+		});
+	}
+
+	@Test
+	public void pageableTest2nd() {
+		Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC, "bno");
+		Page<Board> results = boardRepository.findByBnoGreaterThan(0L, paging);
+		log.info(results.getTotalPages() + "");
+		log.info(results.getNumberOfElements() + "");
+		log.info(results.nextPageable() + "");
+
+		results.forEach(board -> {
+			log.info(board.toString());
+		});
+
+		}
 }
