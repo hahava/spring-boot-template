@@ -14,6 +14,9 @@ public class PageController {
 
 	@GetMapping("/boardList")
 	public void board() {
+	}
 
+	@GetMapping("/boardWriter")
+	public void boardWriter() {
 	}
 }
