@@ -12,4 +12,8 @@ public class PageController {
 		model.addAttribute("welcome", "hello world");
 	}
 
+	@GetMapping("/boardList")
+	public void board() {
+
+	}
 }
