@@ -25,14 +25,34 @@
         </tr>
         </thead>
         <tbody id="boardBody">
-        <tr th:each="board:${boardList}">
+        <tr th:each="board:${page.getResult().getContent()}">
             <td th:text="${board.no}"></td>
             <td th:text="${board.writer}"></td>
             <td th:text="${board.title}"></td>
-            <td th:text="${board.no}"></td>
+            <td th:text="${board.content}"></td>
         </tr>
         </tbody>
     </table>
+</div>
+
+<!--pagination-->
+<div class="container" th:unless="${isEmpty}">
+    <div class="row text-center">
+        <div class="col-12 text-center">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/board/list(page=${page.getCurrentPage().getPageNumber()})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(page.getStartPage(),page.getLastPage())}"
+                    th:classappend="${i.equals(page.getCurrentPage().getPageNumber()+1)? 'active' : null}">
+                    <a class="page-link" th:href="@{/board/list(page=${i})}" th:text="${i}"></a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/board/list(page=${page.getCurrentPage().getPageNumber()}+2)}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <!--script-->

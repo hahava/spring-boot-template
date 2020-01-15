@@ -1,58 +1,46 @@
 package me.kalin.vo;
 
-import lombok.Getter;
-import lombok.ToString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Getter
-@ToString(exclude = "pageList")
 public class PageMaker<T> {
 
 	private Page<T> result;
-
-	private Pageable prevPage;
-	private Pageable nextPage;
-
-	private int currentPageNum;
-	private int totalPageNum;
-
 	private Pageable currentPage;
+	private int startPage;
+	private int lastPage;
+	public static final int MAX_PAGINATION_SIZE = 5;
 
-	private List<Pageable> pageList;
+	public Pageable getCurrentPage() {
+		return currentPage;
+	}
+
+	public Page<T> getResult() {
+		return result;
+	}
 
 	public PageMaker(Page<T> result) {
 		this.result = result;
 		this.currentPage = result.getPageable();
-		this.currentPageNum = currentPage.getPageNumber() + 1;
-		this.totalPageNum = result.getTotalPages();
-		this.pageList = new ArrayList<>();
-		calcPages();
+		setStartPage();
+		setLastPage();
 	}
 
-	private void calcPages() {
-		int tempEndNum = (int)(Math.ceil(this.currentPageNum / 10.0) * 10);
-		int startNum = tempEndNum - 9;
+	public int getStartPage() {
+		return startPage;
+	}
 
-		Pageable startPage = this.currentPage;
+	public int getLastPage() {
+		return lastPage;
+	}
 
-		for (int i = startNum; i < this.currentPageNum; i++) {
-			startPage = startPage.previousOrFirst();
-		}
-		this.prevPage = startPage.getPageNumber() <= 0 ? null : startPage.previousOrFirst();
+	private void setStartPage() {
+		this.startPage = (currentPage.getPageNumber() / MAX_PAGINATION_SIZE) * 5 + 1;
+	}
 
-		if (this.totalPageNum < tempEndNum) {
-			tempEndNum = this.totalPageNum;
-			this.nextPage = null;
-		}
-
-		for (int i = startNum; i <= tempEndNum; i++) {
-			pageList.add(startPage);
-			startPage = startPage.next();
-		}
+	private void setLastPage() {
+		int tempLastPage = (currentPage.getPageNumber() / MAX_PAGINATION_SIZE + 1) * 5;
+		this.lastPage = tempLastPage <= this.result.getTotalPages() ? tempLastPage : this.currentPage.getPageSize();
 	}
 
 }
