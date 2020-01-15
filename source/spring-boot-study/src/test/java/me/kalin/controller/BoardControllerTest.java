@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @WebMvcTest
 @Slf4j
-public class HomeControllerTest {
+public class BoardControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
