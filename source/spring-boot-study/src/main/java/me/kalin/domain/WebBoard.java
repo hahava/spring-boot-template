@@ -3,6 +3,7 @@ package me.kalin.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "web_board")
+@ToString
 @EqualsAndHashCode()
 public class WebBoard {
 

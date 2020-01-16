@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -21,13 +22,22 @@ public class BoardController {
 	private WebBoardRepository webBoardRepository;
 
 	@GetMapping("/list")
-	public String boardSe(PageVO pageVO, Model model) {
+	public String getBoard(PageVO pageVO, Model model) {
 		Pageable pageable = pageVO.makePageable(0, "no");
 		PageMaker<WebBoard> webBoardPageMaker = new PageMaker<>(webBoardRepository.findAll(pageable));
 
 		model.addAttribute("isEmpty", webBoardPageMaker.getResult().isEmpty());
 		model.addAttribute("page", webBoardPageMaker);
 
+		return "boardList";
+	}
+
+	@GetMapping("/list/search")
+	public String getBoardWith(PageVO pageVO, Model model, String keyword) {
+		Pageable pageable = pageVO.makePageable(0, "no");
+		PageMaker<WebBoard> webBoardPageMaker = new PageMaker<>(webBoardRepository.findByContentContaining(keyword, pageable));
+		model.addAttribute("isEmpty", webBoardPageMaker.getResult().isEmpty());
+		model.addAttribute("page", webBoardPageMaker);
 		return "boardList";
 	}
 

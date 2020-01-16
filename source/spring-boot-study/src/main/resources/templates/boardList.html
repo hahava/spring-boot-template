@@ -35,6 +35,25 @@
     </table>
 </div>
 
+<!--Search box-->
+<div class="container">
+    <div class="row text-center">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <form th:action="@{/board/list}" method="get" >
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="search" name="keyword"
+                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <input class="btn btn-outline-secondary" type="submit"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+
 <!--pagination-->
 <div class="container" th:unless="${isEmpty}">
     <div class="row text-center">
@@ -48,7 +67,8 @@
                     <a class="page-link" th:href="@{/board/list(page=${i})}" th:text="${i}"></a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/board/list(page=${page.getCurrentPage().getPageNumber()}+2)}">Next</a>
+                    <a class="page-link"
+                       th:href="@{/board/list(page=${page.getCurrentPage().getPageNumber()}+2)}">Next</a>
                 </li>
             </ul>
         </div>

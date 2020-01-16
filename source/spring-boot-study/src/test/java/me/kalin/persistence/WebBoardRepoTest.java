@@ -46,4 +46,13 @@ public class WebBoardRepoTest {
 		});
 	}
 
+	@Test
+	public void selectWebBoardListLikeContent() {
+		Pageable pageable = PageRequest.of(1, 10);
+		Page<WebBoard> page = webBoardRepository.findByContentContaining("8", pageable);
+		page.forEach(webBoard -> {
+			log.info(webBoard.toString());
+		});
+	}
+
 }
